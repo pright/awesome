@@ -41,6 +41,8 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+-- set my wallpaer
+--theme.wallpaper = "/home/pright/Documents/Wallpaper/41610-2560x1600.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
@@ -134,6 +136,7 @@ mygamemenu =
 {
     { "sauerbraten", "sauerbraten-client" },
     { "urbanterror", "urbanterror" },
+    { "enemy-territory", "enemy-territory" },
     { "redeclipse", "redeclipse" },
     { "auteria", "auteria" },
     { "wesnoth", "wesnoth" },
@@ -261,21 +264,17 @@ end
 -- vicious
 do
     local netwidget = wibox.widget.textbox()
-    vicious.register(netwidget, vicious.widgets.net, 'eth0: <span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span> | wlan0: <span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span> | ', 3)
+    vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span> | <span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span> | ', 3)
 
     local wifiwidget = wibox.widget.textbox()
     vicious.register(wifiwidget, vicious.widgets.wifi, 
-    function(widget, args)
-        if args['{ssid}'] == 'N/A' then
-            return args['{ssid}']
-        else
+        function(widget, args)
+            if args['{ssid}'] == 'N/A' then
+                return args['{ssid}']
+            end
             return args['{ssid}'].." "..args['{link}'].."/70 "..args['{rate}']..'Mb/s'
-        end
         end,
         3, "wlan0")
-
-    local batwidget = wibox.widget.textbox()
-    vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 5, "BAT0")
 
     local uptimewidget = wibox.widget.textbox()
     vicious.register(uptimewidget, vicious.widgets.uptime, "$4 $5 $6 | ", 7)
@@ -284,7 +283,13 @@ do
     vicious.register(cpuwidget, vicious.widgets.cpu, "$1% | ")
 
     local memwidget = wibox.widget.textbox()
-    vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB) | ", 13)
+    vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB) | ", 5)
+
+    local fswidget = wibox.widget.textbox()
+    vicious.register(fswidget, vicious.widgets.fs, "${/home used_p}% (${/home used_gb}GB/${/home size_gb}GB) ${/ used_p}% (${/ used_gb}GB/${/ size_gb}GB) | ", 599)
+
+    local batwidget = wibox.widget.textbox()
+    vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 5, "BAT0")
 
     local mystatusbar = {}
     for s = 1, screen.count() do
@@ -295,10 +300,11 @@ do
         left_layout:add(wifiwidget)
 
         local right_layout = wibox.layout.fixed.horizontal()
-        right_layout:add(batwidget)
         right_layout:add(uptimewidget)
         right_layout:add(cpuwidget)
         right_layout:add(memwidget)
+        right_layout:add(fswidget)
+        right_layout:add(batwidget)
         right_layout:add(mytextclock)
 
         local layout = wibox.layout.align.horizontal()
@@ -474,9 +480,6 @@ awful.rules.rules = {
     { rule = { class = "Eclipse" },
       properties = { floating = true, tag = tags[1][2] } },
     { rule = { class = "ADT" },
-      properties = { floating = true, tag = tags[1][2] } },
-    -- Meld
-    { rule = { class = "Meld" },
       properties = { floating = true, tag = tags[1][2] } },
     -- Putty
     { rule = { class = "Putty" },
