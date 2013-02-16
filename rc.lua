@@ -260,6 +260,20 @@ end
 
 -- vicious
 do
+    local netwidget = wibox.widget.textbox()
+    vicious.register(netwidget, vicious.widgets.net, 'eth0: <span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span> | wlan0: <span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span> | ', 3)
+
+    local wifiwidget = wibox.widget.textbox()
+    vicious.register(wifiwidget, vicious.widgets.wifi, 
+    function(widget, args)
+        if args['{ssid}'] == 'N/A' then
+            return args['{ssid}']
+        else
+            return args['{ssid}'].." "..args['{link}'].."/70 "..args['{rate}']..'Mb/s'
+        end
+        end,
+        3, "wlan0")
+
     local batwidget = wibox.widget.textbox()
     vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 5, "BAT0")
 
@@ -276,6 +290,10 @@ do
     for s = 1, screen.count() do
         mystatusbar[s] = awful.wibox {position = 'bottom', screen = s}
 
+        local left_layout = wibox.layout.fixed.horizontal()
+        left_layout:add(netwidget)
+        left_layout:add(wifiwidget)
+
         local right_layout = wibox.layout.fixed.horizontal()
         right_layout:add(batwidget)
         right_layout:add(uptimewidget)
@@ -284,6 +302,7 @@ do
         right_layout:add(mytextclock)
 
         local layout = wibox.layout.align.horizontal()
+        layout:set_left(left_layout)
         layout:set_right(right_layout)
 
         mystatusbar[s]:set_widget(layout)
