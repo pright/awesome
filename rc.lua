@@ -87,7 +87,7 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { "Term", "Work", "WWW", "Mail", "Office", "Media", "Book", "Game", "Other"},
+    names = { "Term", "Work", "Web", "Mail", "Office", "Media", "Book", "Game", "Other"},
     layout = { layouts[2], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1]}
 }
 
@@ -111,10 +111,13 @@ myfavoritemenu =
 {
    { "chrome", "chromium" },
    { "qq", "pywebqq" },
+   { "galculator", "galculator" },
    { "exaile", "exaile" },
    { "xbmc", "xbmc" },
+   { "uget", "uget-gtk" },
    { "amule", "amule"},
-   { "playonlinux", "playonlinux" },
+   { "uget", "uget-gtk" },
+   { "gparted", "sudo gparted" },
    { "goagent", "goagent"},
    { "screenshot", "gscreenshot" }
 }
@@ -136,9 +139,12 @@ mygamemenu =
 {
     { "sauerbraten", "sauerbraten-client" },
     { "urbanterror", "urbanterror" },
-    { "enemy-territory", "enemy-territory" },
     { "redeclipse", "redeclipse" },
-    { "auteria", "auteria" },
+    { "enemy-territory", "enemy-territory" },
+    { "xonotic", "xonotic-glx" },
+    { "nexuiz", "nexuiz-glx" },
+    { "warsow", "warsow" },
+    { "vegastrike", "vegastrike" },
     { "wesnoth", "wesnoth" },
     { "warzone2100", "warzone2100" },
     { "openra", "openra" },
@@ -487,8 +493,11 @@ awful.rules.rules = {
     -- Pacmanager
     { rule = { class = "Pac" },
       properties = { floating = true, tag = tags[1][2] } },
+    -- Meld
+    { rule = { class = "Meld" },
+      properties = { floating = true } },
 
-    -- WWW
+    -- Web
     -- Chromium
     { rule = { class = "Chromium" },
       properties = { floating = true, tag = tags[1][3] } },
@@ -497,6 +506,9 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][3] } },
     -- Amule
     { rule = { class = "Amule" },
+      properties = { floating = true, tag = tags[1][3] } },
+    -- Uget
+    { rule = { class = "Uget-gtk" },
       properties = { floating = true, tag = tags[1][3] } },
 
     -- Mail
@@ -531,9 +543,6 @@ awful.rules.rules = {
     -- Game
     -- Sauerbraten
     { rule = { class = "linux-client" },
-      properties = { floating = true, tag = tags[1][8] } },
-    -- Auteria
-    { rule = { class = "auteria.bin" },
       properties = { floating = true, tag = tags[1][8] } },
     -- Pcsx2
     { rule = { class = "Pcsx2" },
