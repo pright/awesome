@@ -1,0 +1,12 @@
+#!/bin/sh
+
+config=$HOME/.config/awesome
+cwd=$(pwd)
+
+if [ ! -d $config ]; then
+    mkdir -p $config
+fi
+    
+ln -sf $cwd/rc.lua $config
+
+exit 0
