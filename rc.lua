@@ -42,7 +42,7 @@ end
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 -- set my wallpaer
---theme.wallpaper = "/home/pright/Documents/Wallpaper/41610-2560x1600.jpg"
+theme.wallpaper = "/home/pright/Documents/Wallpaper/arch_linux-wallpaper-2560x1600.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
@@ -110,7 +110,9 @@ myawesomemenu = {
 myfavoritemenu = 
 {
    { "chrome", "chromium" },
-   { "qq", "pywebqq" },
+   { "qq", "qq2012" },
+   { "ipmsg", "qipmsg" },
+   { "wuala", "wuala" },
    { "galculator", "galculator" },
    { "exaile", "exaile" },
    { "xbmc", "xbmc" },
@@ -126,6 +128,7 @@ myworkmenu =
 {
    { "thunderbird", "thunderbird" },
    { "eclipse", "/home/pright/adt-bundle-linux-x86/eclipse/eclipse" },
+   { "wireshark", "wireshark" },
    { "pacmanager", "pac" },
    { "putty", "putty" },
    { "virtualbox", "virtualbox" },
@@ -138,20 +141,17 @@ myworkmenu =
 mygamemenu = 
 {
     { "sauerbraten", "sauerbraten-client" },
-    { "urbanterror", "urbanterror" },
     { "redeclipse", "redeclipse" },
-    { "enemy-territory", "enemy-territory" },
     { "xonotic", "xonotic-glx" },
     { "nexuiz", "nexuiz-glx" },
-    { "warsow", "warsow" },
     { "vegastrike", "vegastrike" },
+    { "tome4", "tome4" },
     { "wesnoth", "wesnoth" },
     { "warzone2100", "warzone2100" },
     { "openra", "openra" },
     { "freeorion", "freeorion" },
     { "freeciv", "freeciv-gtk2" },
     { "widelands", "widelands" },
-    { "btanks", "btanks" },
     { "pcsx2", "pcsx2" },
     { "dolphin", "dolphin-emu" }
 }
@@ -493,6 +493,9 @@ awful.rules.rules = {
     -- Pacmanager
     { rule = { class = "Pac" },
       properties = { floating = true, tag = tags[1][2] } },
+    -- Wireshark
+    { rule = { class = "Wireshark" },
+      properties = { floating = true, tag = tags[1][2] } },
     -- Meld
     { rule = { class = "Meld" },
       properties = { floating = true } },
@@ -502,8 +505,8 @@ awful.rules.rules = {
     { rule = { class = "Chromium" },
       properties = { floating = true, tag = tags[1][3] } },
     -- QQ
-    { rule = { class = "Pywebqq" },
-      properties = { floating = true, tag = tags[1][3] } },
+    { rule = { class = "Wine" },
+      properties = { floating = true, ontop = true, tag = tags[1][3] } },
     -- Amule
     { rule = { class = "Amule" },
       properties = { floating = true, tag = tags[1][3] } },
@@ -539,6 +542,9 @@ awful.rules.rules = {
     -- FBReader
     { rule = { class = "FBReader" },
       properties = { floating = true, tag = tags[1][7] } },
+    -- FoxitReader
+    { rule = { class = "FoxitReade" },
+      properties = { floating = true, tag = tags[1][7] } },
 
     -- Game
     -- Sauerbraten
@@ -558,6 +564,9 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][8] } },
     -- Wesnoth
     { rule = { class = "wesnoth" },
+      properties = { floating = true, tag = tags[1][8] } },
+    -- Tome4
+    { rule = { class = "t-engine" },
       properties = { floating = true, tag = tags[1][8] } },
 }
 -- }}}
