@@ -42,7 +42,7 @@ end
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 -- set my wallpaer
-theme.wallpaper = "/home/pright/Documents/Wallpaper/arch_linux-wallpaper-2560x1600.jpg"
+theme.wallpaper = "/home/pright/documents/wallpapers/arch_linux-wallpaper-2560x1600.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
@@ -121,7 +121,8 @@ myfavoritemenu =
    { "uget", "uget-gtk" },
    { "gparted", "sudo gparted" },
    { "goagent", "goagent"},
-   { "screenshot", "gscreenshot" }
+   { "screenshot", "gscreenshot" },
+   { "bitcoin", "bitcoin-qt" }
 }
 
 myworkmenu = 
@@ -140,18 +141,13 @@ myworkmenu =
 
 mygamemenu = 
 {
-    { "sauerbraten", "sauerbraten-client" },
-    { "redeclipse", "redeclipse" },
-    { "xonotic", "xonotic-glx" },
-    { "nexuiz", "nexuiz-glx" },
-    { "vegastrike", "vegastrike" },
     { "tome4", "tome4" },
+    { "sauerbraten", "sauerbraten-client" },
     { "wesnoth", "wesnoth" },
     { "warzone2100", "warzone2100" },
     { "openra", "openra" },
     { "freeorion", "freeorion" },
     { "freeciv", "freeciv-gtk2" },
-    { "widelands", "widelands" },
     { "pcsx2", "pcsx2" },
     { "dolphin", "dolphin-emu" }
 }
@@ -346,6 +342,18 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+    
+    awful.key({ modkey,           }, "e",
+        function ()
+            if instance then
+                instance:hide()
+                instance = nil
+            else
+                instance = awful.menu.clients({ width=250 })
+            end
+        end),
+    awful.key({}, "Print", function () awful.util.spawn("scrot -e 'mv $f /home/pright/documents/screenshots/ &> /dev/null'") end),
+    awful.key({}, "XF86Display", function () awful.util.spawn("/home/pright/bin/switch_disp") end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -555,9 +563,6 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][8] } },
     -- Dolphin-emu
     { rule = { class = "Dolphin-emu" },
-      properties = { floating = true, tag = tags[1][8] } },
-    -- btanks
-    { rule = { class = "btanks-bin" },
       properties = { floating = true, tag = tags[1][8] } },
     -- Freeciv
     { rule = { class = "Freeciv-gtk2" },
