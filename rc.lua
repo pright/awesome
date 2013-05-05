@@ -109,31 +109,31 @@ myawesomemenu = {
 
 myfavoritemenu = 
 {
-   { "chrome", "chromium" },
-   { "qq", "qq2012" },
-   { "ipmsg", "qipmsg" },
-   { "wuala", "wuala" },
-   { "galculator", "galculator" },
-   { "exaile", "exaile" },
+   { "Chromium", "chromium" },
+   { "QQ", "qq2012" },
+   { "IPMsg", "qipmsg" },
+   { "Galculator", "galculator" },
+   { "Exaile", "exaile" },
    { "xbmc", "xbmc" },
-   { "uget", "uget-gtk" },
-   { "amule", "amule"},
-   { "uget", "uget-gtk" },
-   { "gparted", "sudo gparted" },
+   { "Cheese", "cheese" },
+   { "uGet", "uget-gtk" },
+   { "aMule", "amule"},
+   { "GParted", "gksu gparted" },
+   { "Wuala", "wuala" },
    { "goagent", "goagent"},
-   { "screenshot", "gscreenshot" },
-   { "bitcoin", "bitcoin-qt" }
+   { "gscreenshot", "gscreenshot" },
 }
 
 myworkmenu = 
 {
-   { "thunderbird", "thunderbird" },
-   { "eclipse", "/home/pright/adt-bundle-linux-x86/eclipse/eclipse" },
-   { "wireshark", "wireshark" },
-   { "pacmanager", "pac" },
-   { "putty", "putty" },
-   { "virtualbox", "virtualbox" },
-   { "meld", "meld" },
+   { "Thunderbird", "thunderbird" },
+   { "Eclipse", "/home/pright/adt-bundle-linux-x86/eclipse/eclipse" },
+   { "Wireshark", "wireshark" },
+   { "PuTTY", "putty" },
+   { "VirtualBox", "virtualbox" },
+   { "Meld", "meld" },
+   { "Gimp", "gimp" },
+   { "TeamViewer", "teamviewer" },
    { "wps", "wps" },
    { "et", "et" },
    { "wpp", "wpp" },
@@ -141,15 +141,15 @@ myworkmenu =
 
 mygamemenu = 
 {
-    { "tome4", "tome4" },
-    { "sauerbraten", "sauerbraten-client" },
-    { "wesnoth", "wesnoth" },
-    { "warzone2100", "warzone2100" },
-    { "openra", "openra" },
-    { "freeorion", "freeorion" },
-    { "freeciv", "freeciv-gtk2" },
-    { "pcsx2", "pcsx2" },
-    { "dolphin", "dolphin-emu" }
+    { "TOME4", "tome4" },
+    { "Sauerbraten", "sauerbraten-client" },
+    { "Wesnoth", "wesnoth" },
+    { "WARZONE2100", "warzone2100" },
+    { "OpenRA", "openra" },
+    { "Freeorion", "freeorion" },
+    { "Freeciv", "freeciv-gtk2" },
+    { "PCSX2", "pcsx2" },
+    { "Dolphin", "dolphin-emu" }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
@@ -266,7 +266,7 @@ end
 -- vicious
 do
     local netwidget = wibox.widget.textbox()
-    vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span> | <span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span> | ', 3)
+    vicious.register(netwidget, vicious.widgets.net, '<span color="#7F9F7F">${eth0 down_kb}</span> <span color="#CC9393">${eth0 up_kb}</span> | <span color="#7F9F7F">${wlan0 down_kb}</span> <span color="#CC9393">${wlan0 up_kb}</span> | ', 3)
 
     local wifiwidget = wibox.widget.textbox()
     vicious.register(wifiwidget, vicious.widgets.wifi, 
@@ -274,7 +274,7 @@ do
             if args['{ssid}'] == 'N/A' then
                 return args['{ssid}']
             end
-            return args['{ssid}'].." "..args['{link}'].."/70 "..args['{rate}']..'Mb/s'
+            return args['{ssid}'].." "..args['{link}'].."/70 "..args['{rate}'].."Mb/s"
         end,
         3, "wlan0")
 
@@ -282,16 +282,27 @@ do
     vicious.register(uptimewidget, vicious.widgets.uptime, "$4 $5 $6 | ", 7)
 
     local cpuwidget = wibox.widget.textbox()
-    vicious.register(cpuwidget, vicious.widgets.cpu, "$1% | ")
+    vicious.register(cpuwidget, vicious.widgets.cpu, "$1% | ", 6)
 
     local memwidget = wibox.widget.textbox()
+    vicious.cache(vicious.widgets.mem)
     vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB) | ", 5)
 
     local fswidget = wibox.widget.textbox()
     vicious.register(fswidget, vicious.widgets.fs, "${/home used_p}% (${/home used_gb}GB/${/home size_gb}GB) ${/ used_p}% (${/ used_gb}GB/${/ size_gb}GB) | ", 599)
 
     local batwidget = wibox.widget.textbox()
-    vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 5, "BAT0")
+    vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 9, "BAT0")
+    
+    local pkgwidget = wibox.widget.textbox()
+    vicious.register(pkgwidget, vicious.widgets.pkg, 
+        function(widget, args) 
+            if (args[1]==0) then
+                return ""
+            end
+            return args[1].." upgrades | "
+        end,
+        300, "Arch")
 
     local mystatusbar = {}
     for s = 1, screen.count() do
@@ -307,6 +318,7 @@ do
         right_layout:add(memwidget)
         right_layout:add(fswidget)
         right_layout:add(batwidget)
+        right_layout:add(pkgwidget)
         right_layout:add(mytextclock)
 
         local layout = wibox.layout.align.horizontal()
@@ -487,6 +499,9 @@ awful.rules.rules = {
     --   properties = { tag = tags[1][2] } },
 
     -- Work
+    -- Gimp
+    { rule = { class = "Gimp" },
+      properties = { floating = true, tag = tags[1][2] } },
     -- VirtualBox
     { rule = { class = "VirtualBox" },
       properties = { floating = true, tag = tags[1][2] } },
@@ -495,9 +510,9 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][2] } },
     { rule = { class = "ADT" },
       properties = { floating = true, tag = tags[1][2] } },
-    -- Putty
-    { rule = { class = "Putty" },
-      properties = { floating = true, tag = tags[1][2] } },
+    ---- Putty
+    --{ rule = { class = "Putty" },
+      --properties = { floating = true, tag = tags[1][2] } },
     -- Pacmanager
     { rule = { class = "Pac" },
       properties = { floating = true, tag = tags[1][2] } },
@@ -507,14 +522,20 @@ awful.rules.rules = {
     -- Meld
     { rule = { class = "Meld" },
       properties = { floating = true } },
+    -- TeamViewer
+    { rule = { instance = "TeamViewer.exe" },
+      properties = { floating = true } },
 
     -- Web
     -- Chromium
     { rule = { class = "Chromium" },
       properties = { floating = true, tag = tags[1][3] } },
     -- QQ
-    { rule = { class = "Wine" },
+    { rule = { instance = "QQ.exe" },
       properties = { floating = true, ontop = true, tag = tags[1][3] } },
+    -- Qipmsg
+    { rule = { class = "Qipmsg" },
+      properties = { floating = true, tag = tags[1][3] } },
     -- Amule
     { rule = { class = "Amule" },
       properties = { floating = true, tag = tags[1][3] } },
@@ -573,6 +594,7 @@ awful.rules.rules = {
     -- Tome4
     { rule = { class = "t-engine" },
       properties = { floating = true, tag = tags[1][8] } },
+      
 }
 -- }}}
 
