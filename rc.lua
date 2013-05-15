@@ -133,7 +133,6 @@ myworkmenu =
    { "VirtualBox", "virtualbox" },
    { "Meld", "meld" },
    { "Gimp", "gimp" },
-   { "TeamViewer", "teamviewer" },
    { "wps", "wps" },
    { "et", "et" },
    { "wpp", "wpp" },
@@ -282,10 +281,15 @@ do
     vicious.register(uptimewidget, vicious.widgets.uptime, "$4 $5 $6 | ", 7)
 
     local cpuwidget = wibox.widget.textbox()
-    vicious.register(cpuwidget, vicious.widgets.cpu, "$1% | ", 6)
+    vicious.register(cpuwidget, vicious.widgets.cpu, "$1% ", 6)
+
+    local temp1widget = wibox.widget.textbox()
+    vicious.register(temp1widget, vicious.widgets.thermal, "$1°C ", 20, {"coretemp.0", "core", "temp2_input"})
+
+    local temp2widget = wibox.widget.textbox()
+    vicious.register(temp2widget, vicious.widgets.thermal, "$1°C | ", 20, {"coretemp.0", "core", "temp3_input"})
 
     local memwidget = wibox.widget.textbox()
-    vicious.cache(vicious.widgets.mem)
     vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB) | ", 5)
 
     local fswidget = wibox.widget.textbox()
@@ -293,9 +297,9 @@ do
 
     local batwidget = wibox.widget.textbox()
     vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 9, "BAT0")
-    
+
     local pkgwidget = wibox.widget.textbox()
-    vicious.register(pkgwidget, vicious.widgets.pkg, 
+    vicious.register(pkgwidget, vicious.widgets.pkg,
         function(widget, args) 
             if (args[1]==0) then
                 return ""
@@ -315,6 +319,8 @@ do
         local right_layout = wibox.layout.fixed.horizontal()
         right_layout:add(uptimewidget)
         right_layout:add(cpuwidget)
+        right_layout:add(temp1widget)
+        right_layout:add(temp2widget)
         right_layout:add(memwidget)
         right_layout:add(fswidget)
         right_layout:add(batwidget)
@@ -355,15 +361,8 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
     
-    awful.key({ modkey,           }, "e",
-        function ()
-            if instance then
-                instance:hide()
-                instance = nil
-            else
-                instance = awful.menu.clients({ width=250 })
-            end
-        end),
+    awful.key({ modkey,           }, "e", function () awful.menu.clients({ width=250 }) end),
+
     awful.key({}, "Print", function () awful.util.spawn("scrot -e 'mv $f /home/pright/documents/screenshots/ &> /dev/null'") end),
     awful.key({}, "XF86Display", function () awful.util.spawn("/home/pright/bin/switch_disp") end),
 
