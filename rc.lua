@@ -48,8 +48,10 @@ theme.wallpaper = "/home/pright/documents/wallpapers/arch_linux-wallpaper-2560x1
 terminal = "xterm"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
-exploer_cmd = "thunar"
+explorer_cmd = "thunar"
 power_cmd = "/home/pright/bin/power_menu"
+screenshot_cmd = "scrot -e 'mv $f /home/pright/documents/screenshots/ &> /dev/null'"
+switchdisp_cmd = "/home/pright/bin/switch_disp"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -127,7 +129,8 @@ myfavoritemenu =
 myworkmenu = 
 {
    { "Thunderbird", "thunderbird" },
-   { "Eclipse", "/home/pright/adt-bundle-linux-x86/eclipse/eclipse" },
+   { "Eclipse", "eclipse" },
+   { "ANDROID studio", "android-studio" },
    { "Wireshark", "wireshark" },
    { "PuTTY", "putty" },
    { "VirtualBox", "virtualbox" },
@@ -155,7 +158,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "Favorite", myfavoritemenu },
                                     { "Work", myworkmenu },
                                     { "Game", mygamemenu },
-                                    { "Explorer", exploer_cmd },
+                                    { "Explorer", explorer_cmd },
                                     { "Terminal", terminal },
                                     { "Power", power_cmd }
                                   }
@@ -265,7 +268,19 @@ end
 -- vicious
 do
     local netwidget = wibox.widget.textbox()
-    vicious.register(netwidget, vicious.widgets.net, '<span color="#7F9F7F">${eth0 down_kb}</span> <span color="#CC9393">${eth0 up_kb}</span> | <span color="#7F9F7F">${wlan0 down_kb}</span> <span color="#CC9393">${wlan0 up_kb}</span> | ', 3)
+    vicious.register(netwidget, vicious.widgets.net, 
+        function(widget, args)
+            retval = ''
+            if args['{eth0 down_kb}'] ~= nil then
+                retval = retval..'<span color="#7F9F7F">'..args['{eth0 down_kb}']..'</span> <span color="#CC9393">'..args['{eth0 up_kb}']..'</span> | '
+            end
+
+            if args['{wlan0 down_kb}'] ~= nil then
+                retval = retval..'<span color="#7F9F7F">'..args['{eth0 down_kb}']..'</span> <span color="#CC9393">'..args['{eth0 up_kb}']..'</span> | '
+            end
+            return retval
+        end,
+        3)
 
     local wifiwidget = wibox.widget.textbox()
     vicious.register(wifiwidget, vicious.widgets.wifi, 
@@ -361,10 +376,11 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
     
-    awful.key({ modkey,           }, "e", function () awful.menu.clients({ width=250 }) end),
+    awful.key({ modkey,           }, "q", function () awful.menu.clients({ width=250 }) end),
+    awful.key({ modkey,           }, "e", function () awful.util.spawn(explorer_cmd) end),
 
-    awful.key({}, "Print", function () awful.util.spawn("scrot -e 'mv $f /home/pright/documents/screenshots/ &> /dev/null'") end),
-    awful.key({}, "XF86Display", function () awful.util.spawn("/home/pright/bin/switch_disp") end),
+    awful.key({}, "Print", function () awful.util.spawn(screenshot_cmd) end),
+    awful.key({}, "XF86Display", function () awful.util.spawn(switchdisp_cmd) end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -506,6 +522,11 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][2] } },
     -- Eclipse
     { rule = { class = "Eclipse" },
+      properties = { floating = true, tag = tags[1][2] } },
+    { rule = { class = "ADT" },
+      properties = { floating = true, tag = tags[1][2] } },
+    -- ANDROID studio
+    { rule = { class = "jetbrains-android-studio" },
       properties = { floating = true, tag = tags[1][2] } },
     { rule = { class = "ADT" },
       properties = { floating = true, tag = tags[1][2] } },
