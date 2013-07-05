@@ -143,6 +143,7 @@ myworkmenu =
 
 mygamemenu = 
 {
+    { "Steam", "steam" },
     { "TOME4", "tome4" },
     { "Sauerbraten", "sauerbraten-client" },
     { "Wesnoth", "wesnoth" },
@@ -600,6 +601,9 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][7] } },
 
     -- Game
+    -- Steam
+    { rule = { class = "Steam" },
+      properties = { floating = true, tag = tags[1][8] } },
     -- Sauerbraten
     { rule = { class = "linux-client" },
       properties = { floating = true, tag = tags[1][8] } },
