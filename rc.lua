@@ -313,10 +313,13 @@ do
     local batwidget = wibox.widget.textbox()
     vicious.register(batwidget, vicious.widgets.bat, "$1 $2% $3 | ", 9, "BAT0")
 
+    oswidget = wibox.widget.textbox()
     local pkgwidget = wibox.widget.textbox()
     vicious.register(pkgwidget, vicious.widgets.pkg,
         function(widget, args) 
             if (args[1]==0) then
+                vicious.register(oswidget, vicious.widgets.os,
+                    "$2 | ", 3600)
                 return ""
             end
             return args[1].." upgrades | "
@@ -340,6 +343,7 @@ do
         right_layout:add(fswidget)
         right_layout:add(batwidget)
         right_layout:add(pkgwidget)
+        right_layout:add(oswidget)
         right_layout:add(mytextclock)
 
         local layout = wibox.layout.align.horizontal()
