@@ -277,7 +277,7 @@ do
             end
 
             if args['{wlan0 down_kb}'] ~= nil then
-                retval = retval..'<span color="#7F9F7F">'..args['{eth0 down_kb}']..'</span> <span color="#CC9393">'..args['{eth0 up_kb}']..'</span> | '
+                retval = retval..'<span color="#7F9F7F">'..args['{wlan0 down_kb}']..'</span> <span color="#CC9393">'..args['{wlan0 up_kb}']..'</span> | '
             end
             return retval
         end,
