@@ -115,6 +115,7 @@ myfavoritemenu =
    { "QQ", "qq2012" },
    { "IPMsg", "qipmsg" },
    { "Galculator", "galculator" },
+   { "XnView MP", "xnviewmp" },
    { "Exaile", "exaile" },
    { "xbmc", "xbmc" },
    { "Cheese", "cheese" },
@@ -585,6 +586,9 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][5] } },
 
     -- Media
+    -- XnView MP
+    { rule = { class = "XnView" },
+      properties = { floating = true, tag = tags[1][6] } },
     -- XBMC
     { rule = { class = "xbmc.bin" },
       properties = { floating = true, tag = tags[1][6] } },
