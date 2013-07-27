@@ -122,7 +122,7 @@ myfavoritemenu =
    { "uGet", "uget-gtk" },
    { "aMule", "amule"},
    { "GParted", "gksu gparted" },
-   { "Wuala", "wuala" },
+   { "MComix", "mcomix" },
    { "goagent", "goagent"},
    { "gscreenshot", "gscreenshot" },
 }
