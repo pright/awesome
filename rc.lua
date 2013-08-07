@@ -115,6 +115,7 @@ myfavoritemenu =
    { "QQ", "qq2012" },
    { "IPMsg", "qipmsg" },
    { "Galculator", "galculator" },
+   { "ARandR", "arandr" },
    { "XnView MP", "xnviewmp" },
    { "Exaile", "exaile" },
    { "xbmc", "xbmc" },
