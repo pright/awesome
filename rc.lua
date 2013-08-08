@@ -134,6 +134,7 @@ myworkmenu =
    { "Eclipse", "eclipse" },
    { "ANDROID studio", "android-studio" },
    { "Wireshark", "wireshark" },
+   { "Dia", "dia" },
    { "PuTTY", "putty" },
    { "VirtualBox", "virtualbox" },
    { "Meld", "meld" },
@@ -526,6 +527,9 @@ awful.rules.rules = {
       properties = { floating = true, tag = tags[1][2] } },
     -- VirtualBox
     { rule = { class = "VirtualBox" },
+      properties = { floating = true, tag = tags[1][2] } },
+    -- Dia
+    { rule = { class = "Dia" },
       properties = { floating = true, tag = tags[1][2] } },
     -- Eclipse
     { rule = { class = "Eclipse" },
