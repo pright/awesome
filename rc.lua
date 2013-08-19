@@ -113,6 +113,7 @@ myfavoritemenu =
 {
    { "Chromium", "chromium" },
    { "QQ", "qq2012" },
+   { "Nixnote", "nixnote" },
    { "IPMsg", "qipmsg" },
    { "Galculator", "galculator" },
    { "ARandR", "arandr" },
@@ -631,7 +632,11 @@ awful.rules.rules = {
     -- Tome4
     { rule = { class = "t-engine" },
       properties = { floating = true, tag = tags[1][8] } },
-      
+
+    -- Other
+    -- NixNote
+    { rule = { name = "NixNote" },
+      properties = { floating = true, tag = tags[1][9] } },
 }
 -- }}}
 
