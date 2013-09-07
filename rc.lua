@@ -599,7 +599,10 @@ awful.rules.rules = {
     { rule = { class = "xbmc.bin" },
       properties = { floating = true, tag = tags[1][6] } },
     -- Exaile
-    { rule = { class = "Exaile" },
+    { rule = { class = "Exaile.py" },
+      properties = { floating = true, tag = tags[1][6] } },
+    -- VLC
+    { rule = { class = "Vlc" },
       properties = { floating = true, tag = tags[1][6] } },
 
     -- Book
